@@ -1,0 +1,39 @@
+    <script type="text/javascript" src=
+		"http://acg.ual.es/enia/socket.io/socket.io.js"></script>
+
+    <script type="text/javascript">
+        socketSavins = io.connect("http://localhost:3000");
+
+        socketSavins.on("message", function (message) {
+            if (message == "escritorio" || message == "menú" ||
+                message == "abrir menú" || message == "cerrar menú" ||
+                message == "okey" || message == "atrás" ||
+                message == "siguiente" || message == "anterior" ||
+                message == "añadir" || message == "cerrar" ||
+                message == "ampliar" || message == "reducir" ||
+                message == "arriba" || message == "abajo" ||
+                message == "mover arriba" || message == "mover abajo" ||
+                message == "mover izquierda" || message == "mover derecha") 
+			{
+				document.getElementById("vocabloReconocido").innerHTML 
+					= message;
+
+            } else {
+                document.getElementById("vocabloReconocido").innerHTML =
+					"Vocablo no reconocido";
+            }
+            accionEnia(message);
+            setTimeout(function () {
+                document.getElementById("vocabloReconocido").innerHTML = 
+					"Esperando...";
+            }, 2000);
+        });
+
+        function enviarBlobANodeJS(blob) {
+
+            document.getElementById("vocabloReconocido").innerHTML = 
+				"Esperando respuesta...";
+            socketSavins.emit('blob', blob);
+            console.log("mensajedelcliente: enviado blob");
+        }
+    </script>
